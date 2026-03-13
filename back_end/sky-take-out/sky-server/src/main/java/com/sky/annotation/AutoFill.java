@@ -1,0 +1,19 @@
+package com.sky.annotation;
+
+import com.sky.enumeration.OperationType;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * 自定义注解，用于标识特定方法需要公共字段自动填充
+ */
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface AutoFill {
+    //an annotation for autofill
+    //define Operation Type：update，insert
+    OperationType value();
+}

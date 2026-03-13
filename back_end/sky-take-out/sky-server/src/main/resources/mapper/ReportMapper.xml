@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sky.mapper.ReportMapper">
+    <select id="sumTurnoverByDay" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="dateBegin != null">
+                and order_time &gt;= #{dateBegin}
+            </if>
+            <if test="dateEnd != null">
+                and order_time &lt; #{dateEnd}
+            </if>
+        </where>
+    </select>
+    <select id="countUser" resultType="java.lang.Integer">
+        select count(id) from user
+        <where>
+            <if test="dateBegin != null">
+                and create_time &gt; #{dateBegin}
+            </if>
+            <if test="dateEnd != null">
+                and create_time &lt; #{dateEnd}
+            </if>
+        </where>
+    </select>
+    <select id="countOrder" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="dateBegin != null">
+                and order_time &gt; #{dateBegin}
+            </if>
+            <if test="dateEnd != null">
+                and order_time &lt; #{dateEnd}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="getSalesTop10" resultType="com.sky.dto.GoodsSalesDTO">
+        select od.name name, sum(od.number) number
+        from order_detail od left join orders o
+        on o.id = order_id
+        <where>
+            <if test="status != null">and o.status=#{status}</if>
+            <if test="beginTime != null">and o.order_time &gt; #{beginTime}</if>
+            <if test="endTime != null">and o.order_time &lt; #{endTime}</if>
+        </where>
+        group by name
+        order by number desc limit 10;
+    </select>
+</mapper>
