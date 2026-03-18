@@ -14,6 +14,14 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 地图工具类：
+ *      用于获取地理编码，坐标，以及两点之间的距离
+ *      工具类中灵活使用了 JSONObject, URIBuilder类(这个在HttpClient工具里)
+ *      前者用于解析第三方返回来的Json响应体，后者用于拼接发给第三方的请求URI
+ *
+ *      该工具类的代码稍微复杂，值得去学习HttpClient，Json对象的解析以及属性的获取
+ */
 @Data
 @AllArgsConstructor
 @Slf4j
