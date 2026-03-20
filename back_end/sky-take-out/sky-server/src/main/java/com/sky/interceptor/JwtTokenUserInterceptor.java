@@ -5,6 +5,9 @@ import com.sky.context.BaseContext;
 import com.sky.properties.JwtProperties;
 import com.sky.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -61,8 +64,22 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
 
             //3、通过，放行
             return true;
-        } catch (Exception ex) {
-            //4、不通过，响应401状态码
+        }
+        catch (ExpiredJwtException e) {
+            // token 过期
+            log.info("令牌过期");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        }
+        catch (SignatureException e) {
+            // 签名不对，可能被篡改，或者密钥不匹配
+            log.info("签名不对，可能被篡改，或者密钥不匹配");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
+        }
+        catch (JwtException | IllegalArgumentException e) {
+            // 其余 JWT 非法情况
+            log.info("其余Jwt非法情况");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
