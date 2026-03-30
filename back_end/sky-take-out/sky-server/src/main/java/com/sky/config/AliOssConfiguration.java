@@ -17,8 +17,8 @@ public class AliOssConfiguration {
 
         return new AliOssUtil(aliOssProperties.getEndpoint(),
                         aliOssProperties.getBucketName(),
-                        aliOssProperties.getRegion(),
-                        aliOssProperties.getAccessKeyId(),
-                        aliOssProperties.getAccessKeySecret());
+                        aliOssProperties.getRegion());
+//                        aliOssProperties.getAccessKeyId(),
+//                        aliOssProperties.getAccessKeySecret());
     }
 }

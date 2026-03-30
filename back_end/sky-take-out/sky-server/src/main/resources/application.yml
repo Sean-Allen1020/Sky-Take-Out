@@ -53,8 +53,6 @@ sky:
     endpoint: ${sky.alioss.endpoint}
     bucket-name: ${sky.alioss.bucket-name}
     region: ${sky.alioss.region}
-    access-key-id: ${sky.alioss.access-key-id}
-    access-key-secret: ${sky.alioss.access-key-secret}
 
   wechat:
     appid: ${sky.wechat.appid}

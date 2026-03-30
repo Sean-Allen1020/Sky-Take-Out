@@ -29,8 +29,6 @@ public class AliOssUtil {
     private String endpoint;
     private String bucketName;
     private String region;
-    private String accessKeyId;
-    private String accessKeySecret;
 
     /**
      * 文件上传
@@ -41,8 +39,7 @@ public class AliOssUtil {
     public String upload(MultipartFile file) throws com.aliyuncs.exceptions.ClientException {
 
         // 1. 从环境变量中获取访问凭证。运行本代码示例之前，请确保已设置环境变量OSS_ACCESS_KEY_ID和OSS_ACCESS_KEY_SECRET。
-        DefaultCredentialProvider credentialsProvider = CredentialsProviderFactory.newDefaultCredentialProvider(accessKeyId, accessKeySecret);
-
+        EnvironmentVariableCredentialsProvider credentialsProvider = CredentialsProviderFactory.newEnvironmentVariableCredentialsProvider();
         // 2. 组装文件名，也就是上传后的文件名，自定义即可
         String originalFile = file.getOriginalFilename();
         String extension = "";
@@ -71,7 +68,7 @@ public class AliOssUtil {
                 .region(region)
                 .build();
         // 5. 获取文件的inputStream，用这种try()书写的话，可以省略 .close()关闭流的代码，并且会自动在正确的时机关闭
-        try(InputStream fileInputStream = file.getInputStream()){
+        try (InputStream fileInputStream = file.getInputStream()) {
 
             // 创建PutObjectRequest对象。
             PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, fileInputStream);
